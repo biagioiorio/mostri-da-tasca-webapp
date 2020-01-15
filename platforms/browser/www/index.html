@@ -51,13 +51,13 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css"></link>
 
     <!-- Mapbox GL -->
-    <!--
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet' />
-    -->
+    <!--
     <script src="lib/mapbox-gl-1.6.1.js"></script>
     <link href="css/mapbox/mapbox-gl-1.6.1.css" rel="stylesheet" />
-    
+    -->
+
     <!-- My CSS -->
     <link rel="stylesheet" href="css/style.css"></link>
 
@@ -74,9 +74,21 @@
         </div>
     </div>
     -->
-    <h1>Mostri da tasca</h1>
 
-    <div id="map"></div>
+    <!-- <h1>Mostri da tasca</h1> -->
+
+    <div class="map-wrapper">
+        <div id="map"></div>
+        <div class="row justify-content-around text-center button-wrapper">
+            <div class="col-12 col-sm-4">
+                <button type="button" class="btn btn-primary btn-lg btn-block">Ranking</button>
+            </div>
+            <div class="col-12 col-sm-4">
+                <button type="button" class="btn btn-primary btn-lg btn-block">Profilo</button>
+            </div>
+        </div>
+    </div>
+    
 
     <!-- JS -->
     <script src="lib/jquery-3.4.1.min.js"></script>
