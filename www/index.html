@@ -76,18 +76,19 @@
     -->
 
     <!-- <h1>Mostri da tasca</h1> -->
-
-    <div class="map-wrapper">
-        <div id="map"></div>
-        <div class="row justify-content-around text-center button-wrapper">
-            <div class="col-12 col-sm-4">
-                <button type="button" class="btn btn-primary btn-lg btn-block">Ranking</button>
-            </div>
-            <div class="col-12 col-sm-4">
-                <button type="button" class="btn btn-primary btn-lg btn-block">Profilo</button>
+    <div id="content">
+        <div class="map-wrapper">
+            <div id="map"></div>
+            <div class="row justify-content-around text-center button-wrapper">
+                <div class="col-12 col-sm-4">
+                    <a class="btn btn-primary btn-lg btn-block" href="pages/ranking.html" role="button">Ranking</a>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <a class="btn btn-primary btn-lg btn-block" href="pages/profilo.html" role="button">Profilo</a>
+                </div>
             </div>
         </div>
-    </div>
+    <div>
     
 
     <!-- JS -->
@@ -95,6 +96,7 @@
     <script src="js/bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/navigation.js"></script>
     <script type="text/javascript">
         app.initialize();
     </script>
