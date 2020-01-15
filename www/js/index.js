@@ -34,6 +34,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         //app.receivedEvent('deviceready');
+        loadMap();
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -47,3 +48,16 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
+
+
+function loadMap(){
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYmlhZ2lvaW9yaW8iLCJhIjoiY2szNzFrbHNrMDYxaDNtbXVwdHFjZGNlZCJ9.dHOFVyNISqy9Oo6AfATxMg';
+
+    //Creazione della mappa, con stile, posizione e zoom iniziale
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [0, 0],
+        zoom: 5
+    });
+}
