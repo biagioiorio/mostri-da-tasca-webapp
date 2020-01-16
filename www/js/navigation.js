@@ -1,6 +1,7 @@
 $(document).ready(function(){
     $('a').click(function(e){
         e.preventDefault();
+        //console.log($(this).attr('href'));
         $("#content").load($(this).attr('href'));
     }); 
 });
