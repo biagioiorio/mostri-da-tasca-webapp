@@ -36,6 +36,7 @@ var app = {
         //app.receivedEvent('deviceready');
 
         console.log("Device ready");
+        session_id = "7Dvnd4aSVpu0XEHF";
         $(document).ready(function() {
             renderMapPage();
         });
@@ -74,6 +75,7 @@ function renderMapPage() {
 function renderRankingPage() {
     $("#content").load("./pages/ranking.html", function () {
         $('#btn-mappa').on('click', renderMapPage);
+        getRanking();
     });
 }
 
@@ -82,6 +84,43 @@ function renderProfilePage() {
         $('#btn-mappa').on('click', renderMapPage);
     });
 }
+
+
+//================================================================================
+// Ranking functions
+//================================================================================
+function getRanking() {
+    $.ajax({
+        method: 'post', url: "https://ewserver.di.unimi.it/mobicomp/mostri/ranking.php",
+        data: JSON.stringify({session_id: session_id}),
+        dataType: 'json',
+        success: function (result) {
+            console.log(result);
+            showRanking(result);
+        },
+        error: function (error) {
+            console.error(error);
+        }
+    });
+}
+
+function showRanking(result) {
+    console.log(result.ranking);
+    jQuery.each(result.ranking, function (index, player) {
+        $('#table-ranking tbody').append(
+            '<tr>' +
+            '<td>'+(parseInt(index)+1)+'</td>' +
+            '<td>'+player.username+'</td>' +
+            '<td>'+player.xp+'</td>' +
+            '<td>'+player.lp+'</td>' +
+            '</tr>');
+    });
+}
+
+
+//================================================================================
+// Profile functions
+//================================================================================
 
 
 //================================================================================
