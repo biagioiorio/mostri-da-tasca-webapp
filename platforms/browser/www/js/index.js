@@ -34,7 +34,12 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         //app.receivedEvent('deviceready');
-        loadMap();
+
+        console.log("Device ready");
+        $(document).ready(function() {
+            renderMapPage();
+        });
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -50,6 +55,38 @@ var app = {
 };
 
 
+//================================================================================
+// Navigazione tra le pagine
+//================================================================================
+function renderMapPage() {
+    /***
+     * Funzione che carica la pagina della mappa nel div content,
+     * richiama loadmap() che carica la mappa e vengono assegnati gli
+     * on click ai pulsanti.
+     */
+    $("#content").load("./pages/mappa.html", function () {
+        loadMap();
+        $('a#btn-ranking').on('click', renderRankingPage);
+        $('a#btn-profilo').on('click', renderProfilePage);
+    });
+}
+
+function renderRankingPage() {
+    $("#content").load("./pages/ranking.html", function () {
+        $('#btn-mappa').on('click', renderMapPage);
+    });
+}
+
+function renderProfilePage() {
+    $("#content").load("./pages/profilo.html", function () {
+        $('#btn-mappa').on('click', renderMapPage);
+    });
+}
+
+
+//================================================================================
+// Mappa
+//================================================================================
 function loadMap(){
     mapboxgl.accessToken = 'pk.eyJ1IjoiYmlhZ2lvaW9yaW8iLCJhIjoiY2szNzFrbHNrMDYxaDNtbXVwdHFjZGNlZCJ9.dHOFVyNISqy9Oo6AfATxMg';
 
@@ -57,7 +94,7 @@ function loadMap(){
     var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [0, 0],
-        zoom: 5
+        center: [9.18951, 45.46427],
+        zoom: 10
     });
 }
