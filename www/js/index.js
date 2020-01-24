@@ -82,6 +82,8 @@ function renderRankingPage() {
 function renderProfilePage() {
     $("#content").load("./pages/profilo.html", function () {
         $('#btn-mappa').on('click', renderMapPage);
+        $('#btn-modificaprofilo').on('click', modificaProfilo);
+        getProfile();
     });
 }
 
@@ -121,8 +123,36 @@ function showRanking(result) {
 //================================================================================
 // Profile functions
 //================================================================================
+function getProfile() {
+    $.ajax({
+        method: 'post', url: "https://ewserver.di.unimi.it/mobicomp/mostri/getprofile.php",
+        data: JSON.stringify({session_id: session_id}),
+        dataType: 'json',
+        success: function (result) {
+            console.log(result);
+            showProfileInfo(result);
+        },
+        error: function (error) {
+            console.error(error);
+        }
+    });
+}
 
+function showProfileInfo(result){
+    let username = result.username;
+    let img = result.img;
+    let xp = result.xp;
+    let lp = result.lp;
 
+    $("#img-profile").attr("src","data:image/png;base64,"+img);
+    $("#username").html(username);
+    $("#xp").append(xp);
+    $("#lp").append(lp);
+}
+
+function modificaProfilo() {
+    
+}
 //================================================================================
 // Mappa
 //================================================================================
