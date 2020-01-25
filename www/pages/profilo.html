@@ -1,32 +1,43 @@
-<h1>PROFILO</h1>
+<div class="row sticky-top page-title text-white p-4 mb-3">
+    <div class="col-8">
+        <h2>Profilo</h2>
+    </div>
+    <div class="col-4">
+        <a id="btn-mappa" class="btn btn-primary btn-lg btn-block" role="button">Mappa</a>
+    </div>
+</div>
+
 
 <div class="row">
-    <div class="col-md-4 offset-md-4">
-        <div class="profile-pic-container">
-            <img id="img-profile" src="/img/logo.png" class="rounded mx-auto d-block"/>
+    <div class="col-md-4 mx-auto">
+        <div class="circle-img rounded mx-auto">
+            <img id="img-profile" src="../img/default-profile-pic.jpg" height="200px" />
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-4 offset-md-4">
-        <p id="username" class="text-center">Username</p>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-3 offset-md-3">
-        <p id="xp" class="text-center">XP: </p>
-    </div>
-    <div class="col-md-3 ">
-        <p id="lp" class="text-center">LP: </p>
+        <h3><p id="username" class="text-center mt-4">Username</p></h3>
     </div>
 </div>
 
-
-<div class="row justify-content-around text-center button-wrapper">
-    <div class="col-12 col-sm-4">
-        <a id="btn-mappa" class="btn btn-primary btn-lg btn-block" role="button">Mappa</a>
+<div class="row mb-5">
+    <div class="col-5 mx-auto">
+        <a id="btn-modificaprofilo" class="btn btn-warning btn-sm btn-block mx-auto" role="button">Modifica</a>
     </div>
-    <div class="col-12 col-sm-4">
-        <a id="btn-modificaprofilo" class="btn btn-warning btn-lg btn-block" role="button">Modifica profilo</a>
+</div>
+
+<div class="row mt-5 mx-5">
+    <div class="col-5 mx-auto text-center">
+        <div class="badge badge-success text-wrap" style="width: 5rem;">
+            <h5 class="mb-0">XP</h5>
+        </div>
+        <h5 class="mb-0 mt-2"><p id="xp" class="text-center"></p></h5>
+    </div>
+    <div class="col-5 mx-auto text-center">
+        <div class="badge badge-success text-wrap" style="width: 5rem;">
+            <h5 class="mb-0">LP</h5>
+        </div>
+        <h5 class="mb-0 mt-2"><p id="lp" class="text-center"></p></h5>
     </div>
 </div>

@@ -89,7 +89,10 @@ function renderProfilePage() {
 }
 
 function renderEditProfilePage() {
+    let old_img_src = $('#img-profile').attr('src');
+    $("#new-img").data("isnew", false);
     $("#content").load("./pages/modificaprofilo.html", function () {
+        $('#new-img').attr('src', old_img_src);
         $('#btn-annulla').on('click', renderProfilePage);
         $('#btn-conferma').on('click', setProfile);
         $("#btn-caricaimmagine").on('click', openFilePicker);
@@ -193,13 +196,14 @@ function showProfileInfo(result){
 //================================================================================
 function setProfile() {
     let new_img = $("#new-img").attr("src") ? $("#new-img").attr("src").split(",")[1] : undefined;
+    let isNew = $("#new-img").data("isnew");
     let new_username = $("#new-username").val();
     let flag = false;   // va a true se almeno uno tra img e username è impostato correttamente
 
     let JSONdata = {};
     JSONdata["session_id"] = session_id;
 
-    if (new_img !== undefined && new_img.length <= 137000){
+    if (new_img !== undefined && new_img.length <= 137000 && isNew){
         JSONdata['img'] = new_img;
         flag = true;
     }
@@ -256,11 +260,13 @@ function openFilePicker() {
             console.log("Caricamento immagine su Android");
             getFileContentAsBase64(imageUri, function (imgBase64) {
                 $("#new-img").attr("src", imgBase64);
+                $("#new-img").data("isnew", true);
             });
         }else {
             //su browser restituisce l'immagine in base64
             console.log("Caricamento immagine su browser");
             $("#new-img").attr("src", "data:image/jpeg;base64, " + imageUri);
+            $("#new-img").data("isnew", true);
             //$(".cordova-camera-select").remove(); // per risolvere bug dei "scegli file" multipli che rimangono aperti quando si preme più volte il pulsante modifica immagine.
         }
     }, function cameraError(error) {
@@ -295,11 +301,6 @@ function getFileContentAsBase64(path, callback){
     }
 }
 
-
-
-function modificaProfilo() {
-
-}
 
 
 //================================================================================

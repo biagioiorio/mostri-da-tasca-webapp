@@ -2,6 +2,13 @@
     margin: 0; padding: 0;
     height: auto;
 } */
+/*
+[class*="-primary"]{
+    background: orange;
+    border-color: orange;
+}
+*/
+
 html {
     height: 100%;
 }
@@ -10,6 +17,25 @@ body {
     min-height: 100%;
     margin: 0;
     padding: 0;
+    background: #333940;
+    color: #FFFFFF;
+    text-transform: none;
+}
+
+a.btn-primary
+{
+    background-color: orange; !important;
+    border-color: orange;
+    color: #333940;
+    font-weight: bolder;
+}
+
+a.btn-warning{
+    background-color: #e83e8c; !important;
+    border-color: #e83e8c;
+    color: white;
+    font-weight: bolder;
+    width: fit-content;
 }
 
 #map {
@@ -27,6 +53,31 @@ body {
     margin: 15px 0px 50px 0px;
     /* left: 0;
     text-align: center; */
+}
+
+.circle-img {
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    border-width: 5px;
+    border-color: #555A62;
+    border-style: solid;
+}
+
+.circle-img img {
+    height: 100%;
+    transform: translateX(-50%);
+    margin-left: 50%;
+}
+
+.badge-success {
+    background-color: transparent;
+    border: 5px solid #FFFFFF;
+    color: #FFFFFF;
+}
+
+#btn-modificaprofilo {
+    width: fit-content;
 }
 
 /*.cordova-camera-select ~ .cordova-camera-select {
