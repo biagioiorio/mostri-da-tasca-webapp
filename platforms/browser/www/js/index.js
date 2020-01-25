@@ -80,10 +80,19 @@ function renderRankingPage() {
 }
 
 function renderProfilePage() {
+    $(".cordova-camera-select").remove(); // per risolvere bug dei "scegli file" che rimangono sulle altre pagine
     $("#content").load("./pages/profilo.html", function () {
-        $('#btn-mappa').on('click', renderMapPage);
-        $('#btn-modificaprofilo').on('click', modificaProfilo);
         getProfile();
+        $('#btn-mappa').on('click', renderMapPage);
+        $('#btn-modificaprofilo').on('click', renderEditProfilePage);
+    });
+}
+
+function renderEditProfilePage() {
+    $("#content").load("./pages/modificaprofilo.html", function () {
+        $('#btn-annulla').on('click', renderProfilePage);
+        $('#btn-conferma').on('click', setProfile);
+        $("#btn-caricaimmagine").on('click', openFilePicker);
     });
 }
 
@@ -150,9 +159,116 @@ function showProfileInfo(result){
     $("#lp").append(lp);
 }
 
-function modificaProfilo() {
-    
+
+//================================================================================
+// Set Profile functions
+//================================================================================
+function setProfile() {
+    let new_img = $("#new-img").attr("src") ? $("#new-img").attr("src").split(",")[1] : undefined;
+    let new_username = $("#new-username").val();
+    let flag = false;   // va a true se almeno uno tra img e username è impostato correttamente
+
+    let JSONdata = {};
+    JSONdata["session_id"] = session_id;
+
+    if (new_img !== undefined && new_img.length <= 137000){
+        JSONdata['img'] = new_img;
+        flag = true;
+    }
+    if (new_username !== undefined && new_username !== "" && new_username.length <= 15){
+        JSONdata['username'] = new_username;
+        flag = true;
+    }
+    console.log(flag);
+
+    if(flag==true) {
+        $.ajax({
+            method: 'post', url: "https://ewserver.di.unimi.it/mobicomp/mostri/setprofile.php",
+            data: JSON.stringify(JSONdata),
+            dataType: 'json',
+            success: function (result) {
+                console.log(result);
+                renderProfilePage();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }else{
+        $("#alert-wronginput").show();
+    }
+
 }
+
+/* Setta le opzioni per l'upload dell'immagine */
+function setOptions(srcType) {
+    var options = {
+        quality: 20,
+        // Usiamo FILE.URI per evitare problemi di gestione della memoria
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: srcType,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: true,
+        correctOrientation: true  //Corrects Android orientation quirks
+    };
+    return options;
+}
+
+function openFilePicker() {
+    $(".cordova-camera-select").remove();   // per risolvere bug dei "scegli file" multipli che rimangono aperti quando si preme più volte il pulsante modifica immagine.
+
+    var srcType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
+    var options = setOptions(srcType);
+
+    navigator.camera.getPicture(function cameraSuccess(imageUri) {
+        console.log("Immagine caricata: "+imageUri);
+        if (imageUri.substr(0, 5) == 'file:') {
+            //in android imageURI contiene il path
+            console.log("Caricamento immagine su Android");
+            getFileContentAsBase64(imageUri, function (imgBase64) {
+                $("#new-img").attr("src", imgBase64);
+            });
+        }else {
+            //su browser restituisce l'immagine in base64
+            console.log("Caricamento immagine su browser");
+            $("#new-img").attr("src", "data:image/jpeg;base64, " + imageUri);
+            //$(".cordova-camera-select").remove(); // per risolvere bug dei "scegli file" multipli che rimangono aperti quando si preme più volte il pulsante modifica immagine.
+        }
+    }, function cameraError(error) {
+        console.debug("Unable to obtain picture: " + error, "app");
+    }, options);
+
+}
+
+/**
+ * Questa funzione converte il path di un'immagine in una stringa Base64
+ *
+ * @path string
+ * @callback funzione che riceve come primo parametro il risultato della conversione
+ */
+function getFileContentAsBase64(path, callback){
+    window.resolveLocalFileSystemURL(path, gotFile, fail);
+
+    function fail(e) {
+        alert('Cannot found requested file');
+    }
+
+    function gotFile(fileEntry) {
+        fileEntry.file(function(file) {
+            var reader = new FileReader();
+            reader.onloadend = function(e) {
+                var content = this.result;
+                callback(content);
+            };
+            // The most important point, use the readAsDatURL Method from the file plugin
+            reader.readAsDataURL(file);
+        });
+    }
+}
+
+
+
 //================================================================================
 // Mappa
 //================================================================================

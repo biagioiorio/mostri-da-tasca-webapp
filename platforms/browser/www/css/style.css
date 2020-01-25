@@ -20,7 +20,7 @@ body {
     z-index: 0;
 }
 
- .button-wrapper{
+.button-wrapper{
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -28,3 +28,7 @@ body {
     /* left: 0;
     text-align: center; */
 }
+
+/*.cordova-camera-select ~ .cordova-camera-select {
+    visibility: hidden;
+}*/
