@@ -98,10 +98,21 @@ function renderEditProfilePage() {
 
 function renderFightEat(monsterCandy, imgMC) {
     $("#content").load("./pages/fighteat.html", function () {
+
+        var mcLatLng = L.latLng(monsterCandy["lat"], monsterCandy["lon"]);
+        var myLatLng = L.latLng(lat, lon);
+
         $('#btn-mappa').on('click', renderMapPage);
-        $('#btn-azione').on('click', monsterCandy, function(e){
-            renderEsito(monsterCandy);
-        });
+
+        if(myLatLng.distanceTo(mcLatLng)>50.0){
+            console.log("distanza magggiore a 50 metri ");
+            $('#btn-azione').disabled = true;
+        }else{
+            $('#btn-azione').on('click', monsterCandy, function(e){
+                renderEsito(monsterCandy);
+            });
+        }
+
         showFightEat(monsterCandy,imgMC);
     });
 }
@@ -305,7 +316,6 @@ function showFightEat(monsterCandy, imgMC){
             $("#dimensione-mostro-caramella").html("Medie dimensioni");
             break;
         case "L":
-            alert('Hey');
             $("#dimensione-mostro-caramella").html("Grandi dimensioni");
             break;
         default:
@@ -360,14 +370,15 @@ function showEsito(monsterCandy){
 //================================================================================
 // Mappa
 //================================================================================
+var lat,lon;
 function loadMap(){
     mapboxgl.accessToken = 'pk.eyJ1IjoiYmlhZ2lvaW9yaW8iLCJhIjoiY2szNzFrbHNrMDYxaDNtbXVwdHFjZGNlZCJ9.dHOFVyNISqy9Oo6AfATxMg';
 
     //aggiornamento posizione
     var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 1000 });
     function onSuccess(position) {
-        var lat = position.coords.latitude;
-        var lon = position.coords.longitude;
+        lat = position.coords.latitude;
+        lon = position.coords.longitude;
         console.log('Latitude: '  + lat + 'Longitude: '  + lon);
     }
     function onError() {
@@ -449,8 +460,8 @@ function loadMap(){
                             }).on('click', el["id"], function(e) {
                                 renderFightEat(el, result["img"]);
                                 console.log(el["id"]);
-                                console.log(el["name"]);
-                                console.log(el["type"]);
+                                console.log(el["lat"]);
+                                console.log(el["lon"]);
                             });
                         }
                     );
