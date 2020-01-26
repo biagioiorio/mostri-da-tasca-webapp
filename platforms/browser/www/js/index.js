@@ -36,12 +36,14 @@ var app = {
         //app.receivedEvent('deviceready');
 
         console.log("Device ready");
+        const TEST_SESSION_ID = "7Dvnd4aSVpu0XEHF";
 
-        session_id = "7Dvnd4aSVpu0XEHF";
+        session_id = "";
+        session_id = TEST_SESSION_ID;   // commentare questa linea per simulare nuovo utente
         //7Dvnd4aSVpu0XEHF
 
         if(session_id == ""){
-                    if(localStorage.getItem('sessionId')==''){      // LocalStorage vuoto
+                    if(localStorage.getItem('sessionId')==null){      // LocalStorage vuoto
                                 console.log("DEBUG --> LocalStorage == NULL");
                                 //chiamata di rete, ottengo il token
                                 $.ajax({
@@ -49,8 +51,13 @@ var app = {
                                     dataType: 'json',
                                     success: function (result) {
                                         localStorage.setItem('sessionId',result["session_id"]);       //setto il Local Storage col token
-                                        console.log("DEBUG --> LocalStorage = " + localStorage.getItem('sessionId'));
-                                        session_id = result;
+                                        console.log("DEBUG --> session_id (localStorage) = " + localStorage.getItem('sessionId'));
+                                        session_id = result["session_id"];
+                                        console.log("DEBUG --> session_id (variabile) = "+session_id);
+
+                                        $(document).ready(function() {
+                                            renderMapPage();
+                                        });
                                     },
                                     error: function (error) {
                                         console.error(error);
@@ -66,6 +73,7 @@ var app = {
         $(document).ready(function() {
             renderMapPage();
         });
+
 
     },
     // Update DOM on a Received Event
@@ -116,7 +124,7 @@ function renderProfilePage() {
 
 function renderEditProfilePage() {
     let old_img_src = $('#img-profile').attr('src');
-    $("#new-img").data("isnew", false);
+    $("#new-img").data("isnew", false); // Setta isnew a false per dire che l'immagine è quella vecchia, non una caricata dall'utente
     $("#content").load("./pages/modificaprofilo.html", function () {
         $('#new-img').attr('src', old_img_src);
         $('#btn-annulla').on('click', renderProfilePage);
@@ -210,8 +218,8 @@ function showProfileInfo(result){
     let xp = result.xp;
     let lp = result.lp;
 
-    $("#img-profile").attr("src","data:image/png;base64,"+img);
-    $("#username").html(username);
+    if (img !== null) $("#img-profile").attr("src","data:image/png;base64,"+img);
+    if (username !== null) $("#username").html(username);
     $("#xp").append(xp);
     $("#lp").append(lp);
 }
