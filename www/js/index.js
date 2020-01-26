@@ -36,7 +36,33 @@ var app = {
         //app.receivedEvent('deviceready');
 
         console.log("Device ready");
+
         session_id = "7Dvnd4aSVpu0XEHF";
+        //7Dvnd4aSVpu0XEHF
+
+        if(session_id == ""){
+                    if(localStorage.getItem('sessionId')==''){      // LocalStorage vuoto
+                                console.log("DEBUG --> LocalStorage == NULL");
+                                //chiamata di rete, ottengo il token
+                                $.ajax({
+                                    method: 'post', url: "https://ewserver.di.unimi.it/mobicomp/mostri/register.php",
+                                    dataType: 'json',
+                                    success: function (result) {
+                                        localStorage.setItem('sessionId',result["session_id"]);       //setto il Local Storage col token
+                                        console.log("DEBUG --> LocalStorage = " + localStorage.getItem('sessionId'));
+                                        session_id = result;
+                                    },
+                                    error: function (error) {
+                                        console.error(error);
+                                    }
+                                });         
+                    }else{                                          // LocalStorage pieno
+                                console.log("DEBUG --> LocalStorage già pieno = " + localStorage.getItem('sessionId'));
+                                session_id = localStorage.getItem('sessionId');
+                                console.log("DEBUG --> variabile session_id settata = " + session_id);
+                    }
+        }
+
         $(document).ready(function() {
             renderMapPage();
         });
