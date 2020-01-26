@@ -134,7 +134,7 @@ function renderEditProfilePage() {
 }
 
 function renderFightEat(monsterCandy, imgMC) {
-    const FIGHT_EAT_DISTANCE = 500000.0;
+    const FIGHT_EAT_DISTANCE = 50.0;
 
     $("#content").load("./pages/fighteat.html", function () {
 
