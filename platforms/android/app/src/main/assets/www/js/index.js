@@ -100,7 +100,7 @@ function renderMapPage() {
      * on click ai pulsanti.
      */
     $("#content").load("./pages/mappa.html", function () {
-        loadMap();
+        loadMap();  //Commentare se non va sul tablet
         $('a#btn-ranking').on('click', renderRankingPage);
         $('a#btn-profilo').on('click', renderProfilePage);
     });
@@ -134,6 +134,8 @@ function renderEditProfilePage() {
 }
 
 function renderFightEat(monsterCandy, imgMC) {
+    const FIGHT_EAT_DISTANCE = 500000.0;
+
     $("#content").load("./pages/fighteat.html", function () {
 
         var mcLatLng = L.latLng(monsterCandy["lat"], monsterCandy["lon"]);
@@ -141,7 +143,7 @@ function renderFightEat(monsterCandy, imgMC) {
 
         $('#btn-mappa').on('click', renderMapPage);
 
-        if(myLatLng.distanceTo(mcLatLng)>50.0){
+        if(myLatLng.distanceTo(mcLatLng) > FIGHT_EAT_DISTANCE){
             console.log("distanza magggiore a 50 metri ");
             $('#btn-azione').disabled = true;
         }else{
